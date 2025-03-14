@@ -1,0 +1,38 @@
+1=> Find the average price of cars in the dataset.
+SELECT AVG(price) AS avg_price FROM cars;
+
+2=>Calculate the number of cars with leather interior that are cheaper than $1400.
+SELECT COUNT(*) AS num_leather_cars
+FROM cars
+WHERE interior = 'leather' AND price < 1400;
+
+3=> Get the maximum price of Toyota cars produced in 2011.
+SELECT MAX(price) AS max_toyota_price
+FROM cars
+WHERE manufacturer = 'Toyota' AND year = 2011;
+
+4=> Sort the car manufacturers according to the average price of their cars descendingly.
+SELECT manufacturer, AVG(price) AS avg_price
+FROM cars
+GROUP BY manufacturer
+ORDER BY avg_price DESC;
+
+
+5=> Calculate the percentage of cars that use petrol fuel only among cars with category Jeep.
+SELECT 
+    (COUNT(*) * 100.0 / (SELECT COUNT(*) FROM cars WHERE category = 'Jeep')) AS petrol_percentage
+FROM cars
+WHERE category = 'Jeep' AND fuel = 'petrol';
+
+
+6=> Find the cheapest car(s) in the dataset. (If multiple cars have the same lowest price, return all of them.)
+SELECT * 
+FROM cars 
+WHERE price = (SELECT MIN(price) FROM cars);
+
+
+7=> Find the percentage of Toyota cars that are above the average price of all cars.
+SELECT 
+    (COUNT(*) * 100.0 / (SELECT COUNT(*) FROM cars WHERE manufacturer = 'Toyota')) AS toyota_above_avg_percentage
+FROM cars
+WHERE manufacturer = 'Toyota' AND price > (SELECT AVG(price) FROM cars);
