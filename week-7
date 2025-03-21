@@ -1,0 +1,39 @@
+1-
+SELECT 
+    A, B, C,
+    CASE
+        WHEN (A + B <= C OR A + C <= B OR B + C <= A) THEN 'Not A Triangle'
+        WHEN (A = B AND B = C) THEN 'Equilateral'
+        WHEN (A = B OR A = C OR B = C) THEN 'Isosceles'
+        ELSE 'Scalene'
+    END AS TriangleType
+FROM TRIANGLES;
+
+2-
+SELECT product_id, product_name, description
+FROM Products
+WHERE description REGEXP 'SN[0-9]{4}-[0-9]{4}\\b'
+ORDER BY product_id ASC;
+
+3-مش فاهمها اوي
+WITH ScoreRanked AS (
+    SELECT 
+        student_id, 
+        subject, 
+        score, 
+        exam_date,
+        FIRST_VALUE(score) OVER (PARTITION BY student_id, subject ORDER BY exam_date ASC) AS first_score,
+        FIRST_VALUE(score) OVER (PARTITION BY student_id, subject ORDER BY exam_date DESC) AS latest_score
+    FROM Scores
+)
+
+SELECT DISTINCT student_id, subject, first_score, latest_score
+FROM ScoreRanked
+WHERE latest_score > first_score
+ORDER BY student_id, subject;
+
+4-
+select contest_id, round(count(distinct user_id) /(select count(user_id) from Users)*100,2) as percentage
+from Register
+group by contest_id
+order by percentage desc , contest_id
