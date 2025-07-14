@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Closure Counter</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    button { margin: 5px; padding: 10px; }
+    #value { font-size: 24px; margin: 10px 0; }
+  </style>
+</head>
+<body>
+
+  <h2>Closure Counter</h2>
+  <div id="value">0</div>
+  <button id="inc">Increment</button>
+  <button id="dec">Decrement</button>
+  <button id="reset">Reset</button>
+
+  <script>
+    function createCounter() {
+      let count = 0;
+
+      return {
+        increment: function() {
+          count++;
+          return count;
+        },
+        decrement: function() {
+          count--;
+          return count;
+        },
+        reset: function() {
+          count = 0;
+          return count;
+        },
+        getValue: function() {
+          return count;
+        }
+      };
+    }
+
+    const counter = createCounter();
+    const display = document.getElementById('value');
+
+    document.getElementById('inc').onclick = () => {
+      display.textContent = counter.increment();
+    };
+
+    document.getElementById('dec').onclick = () => {
+      display.textContent = counter.decrement();
+    };
+
+    document.getElementById('reset').onclick = () => {
+      display.textContent = counter.reset();
+    };
+  </script>
+
+</body>
+</html>
